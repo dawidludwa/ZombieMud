@@ -11,15 +11,12 @@ namespace ClientTerminal
 	{
 		static void Main(string[] args)
 		{
-			using (Service1Client sc = new Service1Client())
+			using (Server server = new Server())
 			{
-				var cred = sc.GetData(5);
-				var ret = sc.GetDataUsingDataContract(new CompositeType() { BoolValue = true, StringValue = "bo tak" });
-				var koks = sc.GetUserSetting(new User() { Name = "dupa" });
-				Console.WriteLine(cred);
+				var command = new LoginCommand(server, "kutas");
+				Shell shell = new Shell(new KeyboardReader(), new CommandParser().AddCommand(command));
+				shell.Run();
 			}
-
-			Console.ReadKey();
 		}
 	}
 }
